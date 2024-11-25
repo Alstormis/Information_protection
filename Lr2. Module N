@@ -1,0 +1,33 @@
+modul = {'а': 0, 'б': 1, 'в': 2, 'г': 3, 'д': 4, 'е': 5, 'ж': 6, 'з': 7, 'и': 8, 'й': 9, 'к': 10, 'л': 11, 'м': 12,
+         'н': 13, 'о': 14, 'п': 15, 'р': 16, 'с': 17, 'т': 18, 'у': 19, 'ф': 20, 'х': 21, 'ц': 22, 'ч': 23, 'ш': 24, 'щ': 25,
+         'ъ': 26, 'ы': 27, 'ь': 28, 'э': 29, 'ю': 30, 'я': 31, '_': 32}
+kluch = 'перспектива'
+
+
+def ismen(stroka):
+    j = 0
+    konechnaya = ''
+    for_otpr = list()
+    for i in stroka:
+        if j == len(kluch):
+            j = 0
+
+        c = (modul.get(i) + modul.get(kluch[j])) % len(modul)
+        keys = [key for key, value in modul.items() if value == c]
+        for_otpr.append(keys)
+        j += 1
+    print(for_otpr)
+    for i in range(len(for_otpr)):
+        for j in range(len(for_otpr[i])):
+            konechnaya = ''.join([konechnaya, for_otpr[i][j]])
+    zapis(konechnaya)
+
+
+def zapis(result):
+    with open("2.txt", "w", encoding="utf-8") as file:
+        file.write(result)
+
+
+frasa = (open('2.txt', 'r+', encoding="utf-8")).read()
+
+ismen(frasa)
