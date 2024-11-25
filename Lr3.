@@ -1,0 +1,102 @@
+import random
+rand = random.randint(1,5)
+popitka = 0
+def Fiat_posrednik(who):
+    p = 71
+    q = 179
+    n = p * q
+    v = 8098
+    v_1 = 3426
+    s = esochka(n,v_1)
+    if who == 'A':
+        return n,v,s
+    else:
+        return n,v
+    # kvadrat(n)
+
+# def kvadrat(n):
+#     x = 0
+#     mno = set()
+#     for i in range(n):
+#         v = pow(i,2)%n
+#         mno.add(v)
+#         # if pow(i,2)%n == 1:
+#     for i in mno:
+#         for j in mno:
+#             if ((i*j)%n == 1):
+#                 print(i, j)
+#     print(mno)
+def esochka(n, v_1):
+    s_mnogo = set()
+    for i in range(n):
+        if (pow(i,2)%n == v_1):
+            s_mnogo.add(i)
+    s_mnogo = sorted(s_mnogo)
+    return s_mnogo[0]
+
+def str2int(s):
+    s = s.encode()
+    return int(s.hex(), 16)
+
+def binary(i):
+    return bin(i)[2:]
+
+def A():
+    global popitka
+    # n,v,s = Fiat_posrednik('A')
+    n = 35
+    v = 16
+    s = 9
+    print("Введите пароль:")
+    text = input()
+    text = str2int(text)
+    r = 0
+    for i in range(len(str(text))):
+        r = r + int(str(text)[i])
+    r = pow(r,2)
+    if r > n-1 and popitka<5:
+        popitka += 1
+        print("Хм... Может вы не знаете пороль?... Попробуйте еще раз.")
+        A()
+    if r > n - 1 and popitka >= 5:
+        print("Все! С меня хватит! Давайте вы вспомните пароль и придете в другой раз? Лавочка закрыта. Adiós")
+        exit()
+    else:
+        z = pow(r,2)%n
+        b = B(z, z, 0, "otdaj")
+        if b == 0:
+            B(r,z, b, 'tyk-tyk')
+        if b == 1:
+            y = (r*s)%n
+            B(y,z, b, 'tyk-tyk')
+
+def B(r,z, otvet,  what):
+    global popitka
+    n,v = Fiat_posrednik('B')
+    if what == "otdaj":
+        r = binary(r)
+        global rand
+        return int(r[rand])
+    else:
+        if otvet == 0:
+            if z == pow(r,2)%n:
+                print("Рад вас снова видеть. У нас ничего нет, но чем богаты")
+            else:
+                print("Уходи, пока я не вызвал полицию...")
+                popitka += 1
+                if popitka >= 5:
+                    print("Я же говорил тебе уходить...")
+                    exit()
+                A()
+        if otvet == 1:
+            if z == (pow(r,2)*v)%n:
+                print("О, это же ты! Давно не виделись!")
+            else:
+                popitka +=1
+                print("Я тебя не знаю, хватить стучаться")
+                if popitka >= 5:
+                    print("Я уже устал... Давай прекратим все это...")
+                    exit()
+                A()
+A()
+# Fiat_posrednik()
