@@ -1,0 +1,123 @@
+# перспектива // персктива
+slovar = [['п', 'е', 'р', 'с', 'к', 'т'],
+          ['и', 'в', 'а', 'б', 'г', 'д'],
+          ['ж', 'з', 'й', 'л', 'м', 'н'],
+          ['о', 'у', 'ф', 'х', 'ц', 'ч'],
+          ['ш', 'щ', 'ъ', 'ы', 'ь', 'э'],
+          ['ю', 'я', '_', '/', ',', '.']]
+shifor_str = list()
+konecnaya_str = list()
+# за ши фр ов ан но е_ со об ще ни е/
+# уз чв ус шж иу оу сю еф фв шр чд кю
+
+
+def ismen(stroka):
+    i = 0
+    slesh = 0
+    list = ''
+    for slov in stroka:
+        if list == slov:
+            list = ''.join([list, "/"])
+            shifor_str.append(list)
+            list = slov
+            slesh+=1
+            continue
+        if i == 2:
+            shifor_str.append(list)
+            i = 0
+            list = ''
+        list = ''.join([list, slov])
+        i += 1
+    if (len(stroka)+slesh)% 2 != 0:
+        list = ''.join([stroka[len(stroka)-1], "/"])
+        shifor_str.append(list)
+    else:
+        list = ''.join([stroka[len(stroka) - 2], stroka[len(stroka) - 1]])
+        shifor_str.append(list)
+    prohod()
+
+
+def prohod():
+    i = 0
+    b = 0
+    j = 0
+    s = 0
+    t = 0
+    for dwa in shifor_str:
+        first, second = dwa[0], dwa[1]
+        i = 0
+        for stroka_slow in slovar:
+            if first in stroka_slow:
+                j = stroka_slow.index(first)
+                b = i
+            if second in stroka_slow:
+                t = stroka_slow.index(second)
+                s = i
+            i += 1
+        shifr(b, j, s, t)
+    print(konecnaya_str)
+    zapis()
+
+
+
+def shifr(i, j, s, t):
+    print(slovar[i][j], slovar[s][t])
+    if i == s:
+        try:
+            new_a = slovar[i][j+1]
+            new_b = slovar[s][t+1]
+            new = ''.join([new_a, new_b])
+            konecnaya_str.append(new)
+            return
+        except:
+            try:
+                new_a = slovar[i][j+1]
+                new_b = slovar[i][0]
+                new = ''.join([new_a, new_b])
+                konecnaya_str.append(new)
+                return
+            except:
+                new_a = slovar[i][0]
+                new_b = slovar[i][t+1]
+                new = ''.join([new_a, new_b])
+                konecnaya_str.append(new)
+                return
+    if j == t:
+        try:
+            new_a = slovar[i+1][j]
+            new_b = slovar[s+1][t]
+            new = ''.join([new_a, new_b])
+            konecnaya_str.append(new)
+            return
+        except:
+            try:
+                new_a = slovar[i+1][j]
+                new_b = slovar[0][t]
+                new = ''.join([new_a, new_b])
+                konecnaya_str.append(new)
+                return
+            except:
+                new_a = slovar[0][j]
+                new_b = slovar[S+1][t]
+                new = ''.join([new_a, new_b])
+                konecnaya_str.append(new)
+                return
+    else:
+        new_a = slovar[i][t]
+        new_b = slovar[s][j]
+        new = ''.join([new_a, new_b])
+        konecnaya_str.append(new)
+        return
+
+def zapis():
+    result = ''.join(konecnaya_str)
+    with open("2.txt", "w", encoding="utf-8") as file:
+        file.write(result)
+
+
+
+frasa = (open('2.txt', 'r+', encoding="utf-8")).read()
+
+ismen(frasa)
+
+
